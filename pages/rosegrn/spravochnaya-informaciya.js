@@ -6,7 +6,7 @@ import NextLink from 'next/link'
 import { Link } from 'react-scroll'
 // import Scroll from '@/components/scroll'
 import Meta from '@/Components/meta'
-import style from '@/styles/File.module.css'
+import style from '@/styles/rosegrn.module.css'
 
 export default function Home() {
   const [cadastrData, setCadastrData] = useState('')
