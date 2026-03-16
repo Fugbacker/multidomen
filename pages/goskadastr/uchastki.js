@@ -14,7 +14,7 @@ import SearchMap from '@/Components/layout/SearchMap';
 import MacroUchastok from '@/Components/macroUchastok'
 import PpkMapUchastok from '@/Components/ppkMapUchastok'
 import style from '@/styles/goskadastr.module.css'
-import styles from'@PublicCadastralMap.module.css'
+import styles from'@/styles/PublicCadastralMap.module.css'
 
 export default function Home({ country, lat, lon, referer }) {
   const [cadastrData, setCadastrData] = useState([])

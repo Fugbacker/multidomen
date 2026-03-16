@@ -3,13 +3,12 @@ import axios from 'axios'
 import Link from 'next/link'
 import { cityIn, cityFrom, cityTo } from 'lvovich';
 import { useRouter } from 'next/router'
-import { Search } from '@/Components/search/searchGoskadastr'
-import { Header } from "@/Components/headers/headerGoskadastr"
-import { Footer } from "@/Components/footer/footerGoskadastr"
+import Header from '@/Components/layout/Header'
+import Footer from '@/Components/layout/Footer'
 import Scroll from '@/Components/scroll'
 import CheckRaports from '@/Components/checkRaports'
 import Meta from '@/Components/meta'
-import  { SearchMap }  from '@/Components/searchMap'
+import SearchMap from '@/Components/layout/SearchMap';
 import { MongoClient } from 'mongodb'
 import CheckShema from '@/Components/checkShema'
 import MacroRegions from '@/Components/macroRegion/macroRegions'
