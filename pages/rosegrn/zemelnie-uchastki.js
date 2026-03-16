@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link } from 'react-scroll'
-import { Search } from "../Components/search"
-import { Header } from "../Components/header"
-import { Footer } from "../Components/footer"
+import Header from '@/Components/layout/Header'
+import Footer from '@/Components/layout/Footer'
 import Scroll from '@/Components/scroll'
 import CheckRaports from '@/Components/checkRaports'
 import Meta from '@/Components/meta'
-import  { SearchMap }  from '../Components/searchMap'
+import SearchMap from '@/Components/layout/SearchMap';
 import MacroUchastok from '@/Components/macroUchastok'
 import PpkMapUchastok from '@/Components/ppkMapUchastok'
-import style from '../styles/File.module.css'
+import style from '@/styles/File.module.css'
 
 export default function Home({ country, lat, lon, referer }) {
   const [cadastrData, setCadastrData] = useState([])
