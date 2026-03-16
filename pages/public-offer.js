@@ -1,6 +1,7 @@
 import Meta from "@/Components/meta"
-import { Header } from "@/Components/headers/headerGoskadastr"
-import { Footer } from "@/Components/footer/footerGoskadastr"
+import Header from '@/Components/layout/Header'
+import Footer from '@/Components/layout/Footer'
+
 
 export default function Main({url, host}) {
 

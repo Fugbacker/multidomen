@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Search } from "../../Components/search/searchGoskadastr"
-import { Header } from "../../Components/headers/headerGoskadastr"
-import { Footer } from "../../Components/footer/footerGoskadastr"
+import Header from '@/Components/layout/Header'
+import Footer from '@/Components/layout/Footer'
+import Search from '@/Components/layout/Search'
 // import Scroll from '@/components/scroll'
 import Meta from '@/Components/meta'
 import style from '@/styles/goskadastr.module.css'
