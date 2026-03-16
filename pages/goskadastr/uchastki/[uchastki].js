@@ -11,7 +11,7 @@ import Meta from '@/Components/meta'
 import SearchMap from '@/Components/layout/SearchMap';
 import { MongoClient } from 'mongodb'
 import CheckShema from '@/Components/checkShema'
-import MacroRegions from '@/Components/macroRegion/macroRegions'
+import MacroRegions from '@/Components/macroRegion'
 import macroRegions from '@/Components/files/macroRegions'
 import rusRegions from '@/Components/files/regionsWithNumber'
 import PpkMapUchastok from '@/Components/ppkMapUchastok'

@@ -3,18 +3,16 @@ import axios from 'axios'
 import UserAgent from 'user-agents';
 import QRCode from "react-qr-code"
 import { MongoClient } from 'mongodb'
-import regionNumbers from '../../Components/files/regionsNumbers'
-import regionsRus from '../../Components/files/rusRegions'
+import regionNumbers from '@/Components/files/regionsNumbers'
+import regionsRus from '@/Components/files/rusRegions'
 import { useRouter } from 'next/router'
-import InfoCadastrReport from '../../Components/infoCadastrReport'
-import InfoOwnersReport from '../../Components/infoOwnersReport'
-import InfoRestrictionsReport from '../../Components/infoRestrictionsReport'
+import InfoCadastrReport from '@/Components/infoCadastrReport'
+import InfoOwnersReport from '@/Components/infoOwnersReport'
+import InfoRestrictionsReport from '@/Components/infoRestrictionsReport'
 // import { getServerSession } from "next-auth/next"
 // import { authOptions } from 'pages/api/auth/[...nextauth]'
-import CaruselReport from '../../Components/caruselReport'
-import PpkMapLiteReport from '../../Components/ppkMapLiteReport'
-import MkdMapLiteReport from '../../Components/mkdMapLiteReport'
-import MkdForCadastrReport from '../../Components/mkdForCadastrReport'
+import CaruselReport from '@/Components/caruselReport'
+import MkdForCadastrReport from '@/Components/mkdForCadastrReport'
 import https from 'https';
 
 const userAgent = new UserAgent()
