@@ -16,7 +16,7 @@ const AroundObjects = ({ aroundObjects}) => {
             //     <div className="objectListTd">{it?.properties?.options?.cad_num}</div>
             //   </div>
             // </a>
-              <a className="linkFlat" href={`/kadastr/${it?.properties?.options?.cad_num}`}>
+              <a className="linkFlat" key={index} href={`/kadastr/${it?.properties?.options?.cad_num}`}>
               <div className="flat">
                 <div
                   className="flatTableTr"

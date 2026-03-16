@@ -12,6 +12,7 @@ import style from '@/styles/goskadastr.module.css'
 
 const Carusel = ({ dcHouse }) => {
   const [model, setModel] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(true);
   const [tempImg, setTempImg] = useState('')
   const { data: session } = useSession()
   const getImg = (img) => {
@@ -42,7 +43,7 @@ const Carusel = ({ dcHouse }) => {
             preloadImages={false}
           >
             {dcObj.house_photos.map((it, index) => {
-              const [imageLoaded, setImageLoaded] = useState(true);
+
               const handleImageError = () => setImageLoaded(false);
             return (
               imageLoaded && (

@@ -3,15 +3,14 @@ import { layersConfig } from "./files/constants/map-layers.constant.js";
 
 /**
  * Yandex Maps API Layer
- * 
+ *
  * @see https://yandex.ru/dev/jsapi-v2-1/doc/ru/v2-1/ref/reference/Layer
  */
 
 const YMapsLayers = ({ props }) => {
+    const ymaps = useRef(props?.ymaps?.current);
 
     if (!props.ymaps) return;
-
-    const ymaps = useRef(props?.ymaps?.current);
 
     function addLayers(layersConfig) {
         layersConfig?.layers?.forEach((layer) => {

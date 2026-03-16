@@ -6,9 +6,7 @@ import { layersTypeOptions } from './files/constants/type-layers-options.constan
 import { default as uuid } from './files/constants/uuid.js';
 
 const YMapsDeck = ({ props }) => {
-
   const { imageLayer } = props;
-  if (!props.mapRef) return;
   const mapRef = useRef(props?.mapRef?.current);
   const projection = mapRef?.current?.options?.get('projection');;
   const [layer, setLayer] = useState({ map: new Map() });
@@ -18,6 +16,8 @@ const YMapsDeck = ({ props }) => {
   const deckOverlay = useRef(buildCanvas());
   const deck = useRef(undefined);
   const mapTypes = useRef(deckLayersConfig.mapTypes);
+
+  if (!props.mapRef) return;
 
   function getLayer(key) {
     return layer.map.get(key);
