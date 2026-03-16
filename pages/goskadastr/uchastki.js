@@ -7,7 +7,6 @@ import { IoCheckmarkDone } from "react-icons/io5";
 import Header from '@/Components/layout/Header'
 import Footer from '@/Components/layout/Footer'
 import Scroll from '@/Components/scroll'
-import Scroll from '@/Components/scroll'
 import CheckRaports from '@/Components/checkRaports'
 import CheckShema from '@/Components/checkShema'
 import Meta from '@/Components/meta'
