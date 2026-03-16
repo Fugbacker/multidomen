@@ -4,18 +4,18 @@ import Link from 'next/link'
 import Head from 'next/head'
 import dayjs from "dayjs";
 import { IoCheckmarkDone } from "react-icons/io5";
-import { Search } from "../../Components/search/searchGoskadastr"
-import { Header } from "../../Components/headers/headerGoskadastr"
-import { Footer } from "../../Components/footer/footerGoskadastr"
+import Header from '@/Components/layout/Header'
+import Footer from '@/Components/layout/Footer'
+import Scroll from '@/Components/scroll'
 import Scroll from '@/Components/scroll'
 import CheckRaports from '@/Components/checkRaports'
 import CheckShema from '@/Components/checkShema'
 import Meta from '@/Components/meta'
-import  { SearchMap }  from '../../Components/searchMap'
+import SearchMap from '@/Components/layout/SearchMap';
 import MacroUchastok from '@/Components/macroUchastok'
 import PpkMapUchastok from '@/Components/ppkMapUchastok'
 import style from '@/styles/goskadastr.module.css'
-import styles from'../styles/PublicCadastralMap.module.css'
+import styles from'@PublicCadastralMap.module.css'
 
 export default function Home({ country, lat, lon, referer }) {
   const [cadastrData, setCadastrData] = useState([])

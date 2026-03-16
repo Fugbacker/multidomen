@@ -11,7 +11,7 @@ import CheckRaports from '@/Components/checkRaports'
 import CheckShema from '@/Components/checkShema'
 import Meta from '@/Components/meta'
 import SearchMap from '@/Components/layout/SearchMap';
-import MacroRegion from '@/Components/MacroRegion';
+import MacroRegion from '@/Components/macroRegion';
 import PpkMap from '@/Components/ppkMap'
 import style from '@/styles/goskadastr.module.css'
 import styles from'@/styles/PublicCadastralMap.module.css'
