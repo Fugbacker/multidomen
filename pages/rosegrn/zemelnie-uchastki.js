@@ -7,7 +7,7 @@ import Meta from '@/Components/meta'
 import SearchMap from '@/Components/layout/SearchMap';
 import MacroUchastok from '@/Components/macroUchastok'
 import PpkMapUchastok from '@/Components/ppkMapUchastok'
-import style from '@/styles/File.module.css'
+import style from '@/styles/rosegrn.module.css'
 
 export default function Home({ country, lat, lon, referer }) {
   const [cadastrData, setCadastrData] = useState([])
