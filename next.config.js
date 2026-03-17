@@ -2,7 +2,7 @@ const schedule = require('node-schedule')
 const { askserver } = require('./sendMailWhoNotPay')
 const { counterMaker } = require('./ordersCounter')
 const { authPkk } = require('./authPKKdata')
-const { withMinifyClassnames } = require('nextjs-plugin-minify-css-classname');
+// const { withMinifyClassnames } = require('nextjs-plugin-minify-css-classname');
 const cluster = require('cluster');
 
 if (cluster.isMaster) {
@@ -20,23 +20,22 @@ if (cluster.isMaster) {
   })
 }
 
-module.exports = withMinifyClassnames({
-  // reactStrictMode: true,
+module.exports = {
   images: {
     domains: ['img.dmclk.ru'],
   },
-    async headers() {
-      return [
+  async headers() {
+    return [
+      {
+        source: '/pkk',
+        headers: [
           {
-              source: '/pkk',
-              headers: [
-                  {
-                      key: 'Access-Control-Allow-Origin',
-                      value: '*',
-                  },
-              ],
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
           },
-      ];
+        ],
+      },
+    ];
   },
-})
+};
 
