@@ -1,19 +1,21 @@
-const YMapsLayers = ({ props }) => {
+import React, { useState, useEffect, useRef } from 'react';
+import { layersConfig } from "./files/constants/map-layers.constant.js";
 
+/**
+ * Yandex Maps API Layer
+ *
+ * @see https://yandex.ru/dev/jsapi-v2-1/doc/ru/v2-1/ref/reference/Layer
+ */
+
+const YMapsLayers = ({ props }) => {
     const ymaps = useRef(props?.ymaps?.current);
 
-    useEffect(() => {
-
-        if (!props?.ymaps) return;
-
-        addLayers(layersConfig);
-
-    }, []);
+    if (!props.ymaps) return;
 
     function addLayers(layersConfig) {
         layersConfig?.layers?.forEach((layer) => {
-            const p = { ...layer };
-            ymaps.current.layer.storage.add(layer.name, createLayer(p));
+            const props = { ...layer, cmp: this }
+            ymaps.current.layer.storage.add(layer.name, createLayer(props));
         });
 
         createMapTypes(layersConfig.mapTypes);
@@ -21,16 +23,12 @@ const YMapsLayers = ({ props }) => {
 
     function createMapTypes(data) {
         data?.forEach((layer) => {
-            ymaps.current.mapType.storage.add(
-                layer.name,
-                new ymaps.current.MapType(layer.name, layer.layers)
-            );
+            ymaps.current.mapType.storage.add(layer.name, new ymaps.current.MapType(layer.name, layer.layers));
         });
     }
 
     function createLayer(data) {
         return function () {
-
             let layer = new ymaps.current.Layer('', {
                 projection: ymaps.current.projection.sphericalMercator,
                 pane: data.pane || null,
@@ -41,12 +39,8 @@ const YMapsLayers = ({ props }) => {
 
             layer.getTileUrl = (tileNumber, zoom) => {
                 if (zoom <= data?.minZoom || zoom > data?.maxZoom) return;
-
-                return data?.tileUrl
-                    .replace(/%x/ig, tileNumber[0])
-                    .replace(/%y/ig, tileNumber[1] === -1 ? 0 : tileNumber[1])
-                    .replace(/%z/ig, zoom);
-            };
+                return data?.tileUrl.replace(/%x/ig, tileNumber[0]).replace(/%y/ig, tileNumber[1] === -1 ? 0 : tileNumber[1]).replace(/%z/ig, zoom)
+            }
 
             layer.getCopyrights = () => {
                 return ymaps.current.vow.resolve(data?.copyright || '');
@@ -58,7 +52,20 @@ const YMapsLayers = ({ props }) => {
 
             return layer;
         };
+
     }
 
-    return null;
+    useEffect(
+        () => {
+            (async () => {
+                addLayers(layersConfig);
+            })();
+        }, []);
+
+    return (
+        <></>
+    );
+
 }
+
+export default YMapsLayers;

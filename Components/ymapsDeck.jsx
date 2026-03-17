@@ -10,11 +10,14 @@ const YMapsDeck = ({ props }) => {
   const mapRef = useRef(props?.mapRef?.current);
   const projection = mapRef?.current?.options?.get('projection');;
   const [layer, setLayer] = useState({ map: new Map() });
+  // console.log('layer', layer)
   const ymaps = useRef(props?.ymaps?.current);
   const deckContainer = useRef(mapRef.current.container?.getParentElement());
   const deckOverlay = useRef(buildCanvas());
   const deck = useRef(undefined);
   const mapTypes = useRef(deckLayersConfig.mapTypes);
+
+  if (!props.mapRef) return;
 
   function getLayer(key) {
     return layer.map.get(key);
@@ -170,8 +173,6 @@ const YMapsDeck = ({ props }) => {
       imageLayer && addLayer(imageLayer[0]);
 
     }, [imageLayer]);
-
-    if (!props.mapRef) return;
 
 }
 

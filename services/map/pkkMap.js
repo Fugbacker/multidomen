@@ -15,7 +15,6 @@ export async function getPkkMapProps(context) {
   const db = client.db(process.env.MONGO_COLLECTION);
   const codeFromUrl = context.params.map
   const regionData = decryptBase62(codeFromUrl, host)
-  console.log('regionData', regionData)
 
   function buildMatchStage(field, regionName, useRegex = false, settlementName = null, macroRegionName = null) {
     const matchStage = {}
@@ -220,7 +219,6 @@ async function getDemographyStats(regionName, options = {}, settlementName, macr
     const db1 = client.db('cadastr');
     const collection1 = db1.collection('reeestr_districts');
     const object = await collection1.findOne({ districtId: regionId });
-    console.log('regionId', regionId)
     // let center = convertCoordinates([object?.data?.feature?.center?.x, object?.data?.feature?.center?.y]);
 
     function convertCoordinates(point) {

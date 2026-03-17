@@ -1,7 +1,8 @@
 // pages/index.js
 import { useSite } from '@/Components/site/SiteProvider'
-import HomeGoskadastr from '@/pages/goskadastr/homeGoskadastr'
-import HomeRosegrn from '@/pages/rosegrn/homeRosegrn'
+import HomeGoskadastr from '@/components/pages/HomeGoskadastr'
+import HomeRosegrn from '@/components/pages/HomeRosegrn'
+import { getSiteProps } from '@/services/ssr/getSiteProps'
 
 export default function Home(props) {
   const { site } = useSite()
@@ -12,16 +13,7 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  const protocol = context.req.headers['x-forwarded-proto'] || 'http'
-  const rootHost = context.req.headers.host
-  const site = context.req.headers['x-site'] || 'nspdm'
-  const host = rootHost && rootHost.split('.').slice(-2).join('.')
-  const url = `${protocol}://${host}${context.req.url}`
   return {
-    props: {
-      url,
-      host,
-      site
-    },
+    props: getSiteProps(context)
   }
 }
