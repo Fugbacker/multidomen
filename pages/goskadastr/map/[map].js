@@ -1,4 +1,4 @@
-import GoskadastrKadastrMap from '@/components/pages/GoskadastrMapPage'
+import GoskadastrKadastrMap from '@/Components/pages/GoskadastrMapPage'
 import { getPkkMapProps } from '@/services/map/pkkMap'
 
 export default GoskadastrKadastrMap

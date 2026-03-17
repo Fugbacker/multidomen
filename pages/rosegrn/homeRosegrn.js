@@ -1,4 +1,4 @@
-import HomeRosegrn from '@/components/pages/HomeRosegrn'
+import HomeRosegrn from '@/components/pages/homeRosegrn'
 import { getSiteProps } from '@/services/ssr/getSiteProps'
 
 export default HomeRosegrn
