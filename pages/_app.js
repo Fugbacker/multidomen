@@ -17,7 +17,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }) {
-  console.log("pageProps", pageProps);
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
   const router = useRouter();
