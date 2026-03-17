@@ -1,4 +1,4 @@
-import RosegrnKadastrMap from '@/components/pages/RosegrnMapPage'
+import RosegrnKadastrMap from '@/Components/pages/RosegrnMapPage'
 import { getPkkMapProps } from '@/services/map/pkkMap'
 
 export default RosegrnKadastrMap

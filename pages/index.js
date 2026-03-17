@@ -1,7 +1,7 @@
 // pages/index.js
 import { useSite } from '@/Components/site/SiteProvider'
-import HomeGoskadastr from '@/components/pages/homeGoskadastr'
-import HomeRosegrn from '@/components/pages/homeRosegrn'
+import HomeGoskadastr from '@/Components/pages/homeGoskadastr'
+import HomeRosegrn from '@/Components/pages/homeRosegrn'
 import { getSiteProps } from '@/services/ssr/getSiteProps'
 
 export default function Home(props) {
