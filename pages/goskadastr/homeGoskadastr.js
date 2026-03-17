@@ -1,4 +1,4 @@
-import HomeGoskadastr from '@/Сomponents/pages/homeGoskadastr'
+import HomeGoskadastr from '@/Components/pages/homeGoskadastr'
 import { getSiteProps } from '@/services/ssr/getSiteProps'
 
 export default HomeGoskadastr
