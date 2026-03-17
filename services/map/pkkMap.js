@@ -9,12 +9,15 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 
 
 export async function getPkkMapProps(context) {
+  const protocol = context.req.headers['x-forwarded-proto'] || 'http'
   const rootHost = context.req.headers.host
   const host = rootHost && rootHost.split('.').slice(-2).join('.')
   const client = await clientPromise;
   const db = client.db(process.env.MONGO_COLLECTION);
   const codeFromUrl = context.params.map
   const regionData = decryptBase62(codeFromUrl, host)
+
+  const url = `${protocol}://${host}${context.req.url}`
 
   function buildMatchStage(field, regionName, useRegex = false, settlementName = null, macroRegionName = null) {
     const matchStage = {}
@@ -185,6 +188,7 @@ async function getDemographyStats(regionName, options = {}, settlementName, macr
         center: JSON.stringify(center) || null,
         region: 'ok',
         host,
+        url,
         regionStat: JSON.stringify(object?.data?.feature?.stat) || null,
         totalPopulation: JSON.stringify(stats.totalPopulation),
         totalChildren: JSON.stringify(stats.totalChildren),
@@ -260,6 +264,7 @@ async function getDemographyStats(regionName, options = {}, settlementName, macr
         center: JSON.stringify(center) || null,
         city: 'ok',
         host,
+        url,
         totalPopulation: JSON.stringify(stats.totalPopulation),
         totalChildren: JSON.stringify(stats.totalChildren),
         childrenPercentage: JSON.stringify(stats.childrenPercentage),
@@ -350,6 +355,7 @@ async function getDemographyStats(regionName, options = {}, settlementName, macr
         settlementName: settlementName || null,
         center: JSON.stringify(center) || null,
         host,
+        url,
         totalPopulation: JSON.stringify(stats.totalPopulation),
         totalChildren: JSON.stringify(stats.totalChildren),
         childrenPercentage: JSON.stringify(stats.childrenPercentage),
@@ -421,6 +427,7 @@ async function getDemographyStats(regionName, options = {}, settlementName, macr
       center: JSON.stringify(center) || null,
       regionNumber: regionNumber || null,
       host,
+      url,
       totalPopulation: JSON.stringify(stats.totalPopulation),
       totalChildren: JSON.stringify(stats.totalChildren),
       childrenPercentage: JSON.stringify(stats.childrenPercentage),

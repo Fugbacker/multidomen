@@ -799,7 +799,7 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
           </div>
       </div>
       )}
-      <Footer />
+      <Footer host={host} url={url} />
     </>
   )
 }

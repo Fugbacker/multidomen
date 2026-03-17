@@ -6,7 +6,7 @@ import Link from 'next/link'
 import dayjs from "dayjs";
 import axios from 'axios'
 import Header from '@/Components/layout/Header'
-import Footer from '@/Components/layout/Footer'
+import Footer from '@/Components/layout/Footer';
 import CheckRaports from '@/Components/checkRaports'
 import Meta from '@/Components/meta'
 import SearchMap from '@/Components/layout/SearchMap';
@@ -861,7 +861,7 @@ export default function GoskadastrKadastrMap ({ cities, districts, regionName, r
     </>
   }
 
-      <Footer />
+      <Footer host={host} url={url} />
     </>
   )
 }

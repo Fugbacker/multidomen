@@ -4634,7 +4634,7 @@ input #message {
 	opacity: 1;
 }
 .tr {
-	display: table-row;
+	/* display: table-row; */
 	width: 100%;
 }
 .td {
