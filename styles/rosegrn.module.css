@@ -11489,6 +11489,10 @@ a.fancybox {
 	.loginButton span {
 		display: none;
 	}
+
+	.support {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 480px) {
