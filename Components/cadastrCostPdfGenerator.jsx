@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 
  const CadastrCostPdfGenerator = ({ object }) => {
     // console.log('object', object?.[0]?.props?.options)
-    console.log('object', object)
+    // console.log('object', object)
 
 
 

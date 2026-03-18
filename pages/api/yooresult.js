@@ -79,17 +79,15 @@ export default async function result(req, res) {
     }
   }
 
-  console.log('arrayOfRaports', arrayOfRaports)
-
   // Если 'Экспресс отчет' есть в массиве
 
   if (arrayOfRaports.includes('Экспресс отчет') && !arrayOfRaports.includes('Справка о кадастровой стоимости')) {
     try {
       console.log('ЭКСПРЕСС ОТЧЕТ');
       const message = {
-        from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+        from: 'Кадастровый сервис <admin@nspd.su>',
         to: clientEmail,
-        subject: `Вы оплатили заказ №${numberOfOrder} на сайте nspdm.su`,
+        subject: `Вы оплатили заказ №${numberOfOrder}`,
         html: `
           <p>Здравствуйте. Мы получили оплату и уже работаем над вашим заказом №${numberOfOrder}.</p>
           <p><b>В работе следующие услуги:</b></p>
@@ -97,14 +95,13 @@ export default async function result(req, res) {
             ${outputObject().map((it) => `<p>${it.props.children}</p>`).join('\n')}
           </ul>
           <p>Заказ будет отправлен на указанный почтовый ящик сразу же после исполнения.</p>
-          <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>`
+          <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>`
       };
       console.log('ОТПРАВИЛИ ОБЩЕЕ ПИСЬМО КЛИЕНТУ');
       await mailer(message);
 
       const modifiedString = cadNumber.replace(/:/g, '-');
-      const websiteUrl = `https://nspdm.su/justifycontentcenter/${cadNumber}`;
-      console.log('websiteUrl', websiteUrl)
+      const websiteUrl = `https://gcad.su/justifycontentcenter/${cadNumber}`;
       const response = await axios.get(websiteUrl);
       const $ = cheerio.load(response.data);
       const htmlContent = $('div.first').html();
@@ -154,12 +151,12 @@ export default async function result(req, res) {
         fileStream.pipe(res);
 
         const messageWithExpressReport = {
-          from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+          from: 'Кадастровый сервис <admin@nspd.su>',
           to: clientEmail,
           subject: `Экспресс-отчет`,
           html: `
             <p>Здравствуйте, ранее вы оплатили кадастровые отчеты, ваш экспресс отчет во вложении.</p>
-            <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>
+            <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>
 
             <p>Дополнительная информация:</p>
             <p>Наш телеграмм бот для заказа отчетов:  https://t.me/goskad_bot</p>
@@ -183,7 +180,7 @@ export default async function result(req, res) {
 
         const adminMessage = {
           from: clientEmail,
-          to: 'admin@nspdm.su',
+          to: 'admin@nspd.su',
           subject: `${cadNumber} - Уведомление о новом платеже`,
           html:`
             <p>Поступил новый заказ</p>
@@ -215,7 +212,7 @@ export default async function result(req, res) {
     } catch {
       const adminMessage = {
         from: clientEmail,
-        to: 'admin@nspdm.su',
+        to: 'admin@nspd.su',
         subject: `${cadNumber} - Уведомление о новом заказе с ошибкой `,
         html:`
           <p>Поступил новый заказ, но при создании отчета произошла ошибка и отчет не был отправлен</p>
@@ -238,9 +235,9 @@ export default async function result(req, res) {
     try {
       console.log('КАДАСТРОВАЯ СПРАВКА');
       const message = {
-        from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+        from: 'Кадастровый сервис <admin@nspd.su>',
         to: clientEmail,
-        subject: `Вы оплатили заказ №${numberOfOrder} на сайте nspdm.su`,
+        subject: `Вы оплатили заказ №${numberOfOrder}`,
         html: `
           <p>Здравствуйте. Мы получили оплату и уже работаем над вашим заказом №${numberOfOrder}.</p>
           <p><b>В работе следующие услуги:</b></p>
@@ -248,136 +245,12 @@ export default async function result(req, res) {
             ${outputObject().map((it) => `<p>${it.props.children}</p>`).join('\n')}
           </ul>
           <p>Заказ будет отправлен на указанный почтовый ящик сразу же после исполнения.</p>
-          <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>`
+          <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>`
       };
       console.log('ОТПРАВИЛИ ОБЩЕЕ ПИСЬМО КЛИЕНТУ');
       await mailer(message);
 
       const modifiedString = cadNumber.replace(/:/g, '-');
-
-
-  // async function tryUrlsSequentially(startIndex, attemptsLeft) {
-  //   if (attemptsLeft === 0) return null;
-
-  //   const idx = startIndex % geoportalUrls.length;
-  //   const url = geoportalUrls[idx];
-  //   const localIp = getRandomLocalIp();
-
-  //   try {
-  //     // === fgishub.ru ===
-  //     if (url.includes("test.fgishub.ru")) {
-  //       const origin = origins[Math.floor(Math.random() * origins.length)];
-  //       console.log("fgishub origin:", origin);
-  //       const resp = await axios({
-  //         method: "GET",
-  //         url,
-  //         timeout: 4000,
-  //         headers: {
-  //           "User-Agent": userAgent.toString(),
-  //           "Host": "test.fgishub.ru",
-  //           "Origin": origin,
-  //         },
-  //         httpAgent: new http.Agent({ localAddress: localIp }),
-  //         httpsAgent: new https.Agent({ localAddress: localIp, rejectUnauthorized: false }),
-  //       });
-
-
-  //       if (resp?.data?.features?.length > 0 || resp?.data?.data?.features?.length > 0) {
-  //         lastSuccessfulIndex = idx;
-  //         return resp.data;
-  //       }
-  //     }
-
-  //     // === binep.ru POST ===
-  //     if (url.includes("binep.ru/api/v3/search")) {
-  //       const resp = await axios({
-  //         method: "POST",
-  //         url,
-  //         timeout: 4000,
-  //         headers: {
-  //           "User-Agent": userAgent.toString(),
-  //           "Host": "binep.ru",
-  //         },
-  //         data: { query: cadNum },
-  //         httpAgent: new http.Agent({ localAddress: localIp }),
-  //         httpsAgent: new https.Agent({ localAddress: localIp, rejectUnauthorized: false }),
-  //       });
-
-  //       if (resp?.data?.features?.length > 0) {
-  //         lastSuccessfulIndex = idx;
-  //         return resp.data;
-  //       }
-  //     }
-
-  //     // =========================
-  //     // ✅ СЛУЧАЙ 4: mobile.rosreestr.ru
-  //     // =========================
-  //     if (url.includes("mobile.rosreestr.ru")) {
-  //       console.log("mobile.rosreestr.ru...");
-
-
-  //       const resp = await axios({
-  //         method: 'GET',
-  //         url,
-  //         timeout: 4000,
-  //         headers: {
-  //           'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-  //           'Host': 'mobile.rosreestr.ru',
-  //           'Cookie': COOKIE,
-  //           'Referer': 'https://mobile.rosreestr.ru'
-  //         },
-  //         httpAgent: new http.Agent({ localAddress: localIp }),
-  //         httpsAgent: new https.Agent({ localAddress: localIp, rejectUnauthorized: false }),
-  //       });
-
-  //         if (resp?.data?.features?.length > 0 || resp?.data?.data?.features?.length > 0) {
-  //         lastSuccessfulIndex = idx;
-  //         return resp.data;
-  //       }
-  //     }
-
-  //     // === Обычный WMS ===
-  //     console.log("standart flow...");
-  //     const headers = {
-  //       'User-Agent': userAgent.toString(),
-  //     };
-
-  //     if (url.includes('pub.fgislk.gov.ru')) {
-  //       headers['Host'] = 'pub.fgislk.gov.ru';
-  //       headers['Referer'] = 'https://pub.fgislk.gov.ru/map';
-  //     }
-  //     const resp = await axios({
-  //       method: "GET",
-  //       url,
-  //       timeout: 3000,
-  //       headers,
-  //       httpAgent: new http.Agent({ localAddress: localIp }),
-  //       httpsAgent: new https.Agent({ localAddress: localIp, rejectUnauthorized: false }),
-  //     });
-
-  //     if (resp?.data?.features?.length > 0 ||
-  //         resp?.data?.properties ||
-  //         resp?.data?.data?.features?.length > 0 ||
-  //         resp?.data?.[0]?.length > 0) {
-  //       lastSuccessfulIndex = idx;
-  //       return resp.data;
-  //     }
-
-  //     return tryUrlsSequentially(idx + 1, attemptsLeft - 1);
-  //   } catch {
-  //     return tryUrlsSequentially(idx + 1, attemptsLeft - 1);
-  //   }
-  // }
-
-  //     const geoportalUrls = getCadastrPriceUrl(cadNumber);
-
-  //     const shuffledUrls = [...geoportalUrls];
-  //     for (let i = geoportalUrls.length - 1; i > 0; i--) {
-  //       const j = Math.floor(Math.random() * (i + 1));
-  //       [shuffledUrls[i], shuffledUrls[j]] = [shuffledUrls[j], shuffledUrls[i]];
-  //     }
-
-  //     const startFrom = (lastSuccessfulIndex + 1) % geoportalUrls.length;
 
       const url = `http://5.181.253.35:3000/api/search?cadNumber=${cadNumber}`;
 
@@ -406,7 +279,7 @@ export default async function result(req, res) {
           url: url
         })
 
-        historyCadPrice = nspdData?.data
+          historyCadPrice = nspdData?.data?.data || nspdData?.data
 
       } catch {
         historyCadPrice = []
@@ -454,12 +327,12 @@ export default async function result(req, res) {
         fileStream.pipe(res);
 
         const messageWithExpressReport = {
-          from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+          from: 'Кадастровый сервис <admin@nspd.su>',
           to: clientEmail,
           subject: `Справка о кадастровой стоимости`,
           html: `
             <p>Здравствуйте, ранее вы оплатили кадастровые отчеты, справка о кадастровой стоимости во вложении.</p>
-            <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>
+            <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>
             <p>Дополнительная информация:</p>
             <p>Наш телеграмм бот для заказа отчетов:  https://t.me/goskad_bot</p>
             <p>Предлагаем  дистанционное  выполнение  кадастровых  работ  по выгодным
@@ -482,7 +355,7 @@ export default async function result(req, res) {
 
         const adminMessage = {
           from: clientEmail,
-          to: 'admin@nspdm.su',
+          to: 'admin@nspd.su',
           subject: `${cadNumber} - Уведомление о новом платеже`,
           html:`
             <p>Поступил новый заказ</p>
@@ -513,7 +386,7 @@ export default async function result(req, res) {
     } catch {
       const adminMessage = {
         from: clientEmail,
-        to: 'admin@nspdm.su',
+        to: 'admin@nspd.su',
         subject: `${cadNumber} - Уведомление о новом заказе с ошибкой`,
         html:`
           <p>Поступил новый заказ, но при создании отчета произошла ошибка и отчет не был отправлен</p>
@@ -535,9 +408,9 @@ export default async function result(req, res) {
     try {
       console.log('ЭКСПРЕСС ОТЧЕТ И СПРАВКА О КАДАСТРОВОЙ СТОИМОСТИ')
       const message = {
-      from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+      from: 'Кадастровый сервис <admin@nspd.su>',
       to: clientEmail,
-      subject: `Вы оплатили заказ №${numberOfOrder} на сайте nspdm.su`,
+      subject: `Вы оплатили заказ №${numberOfOrder}`,
       html: `
       <p>Здравствуйте. Мы получили оплату и уже работаем над вашим заказом №${numberOfOrder}.</p>
       <p><b>В работе следующие услуги:</b></p>
@@ -545,12 +418,12 @@ export default async function result(req, res) {
       ${outputObject().map((it) => `<p>${it.props.children}</p>`).join('\n')}
       </ul>
       <p>Заказ будет отправлен на указанный почтовый ящик сразу же после исполнения.</p>
-      <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>`
+      <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>`
     }
     console.log('ОТПРАВИЛИ ОБЩЕЕ ПИСЬМО КЛИЕНТУ')
     await mailer(message)
 
-    const websiteUrl = `https://nspdm.su/justifycontentcenter/${cadNumber}`; // Замените на ваш URL
+    const websiteUrl = `https://gcad.su/justifycontentcenter/${cadNumber}`; // Замените на ваш URL
     const response = await axios.get(websiteUrl);
     const $ = cheerio.load(response.data);
 
@@ -591,13 +464,17 @@ export default async function result(req, res) {
 
   try {
     const url = `	http://5.181.253.35:3000/api/history?cadNumber=${cadNumber}`
-    let nspdData = await axios({
+    let nspdData =  await axios({
       method: 'GET',
       timeout: 1000 * 6,
       url: url
     })
+    // .then(({ data }) => {
+    //   console.log('data', data)
+    //   return data
+    // })
 
-    historyCadPrice = nspdData?.data
+    historyCadPrice = nspdData?.data?.data || nspdData?.data
 
   } catch {
     historyCadPrice = []
@@ -652,12 +529,12 @@ export default async function result(req, res) {
   // Функция для отправки писем с вложениями
   async function sendEmails(clientEmail, pdfFilePaths) {
     const messageToClient = {
-      from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+      from: 'Кадастровый сервис <admin@nspd.su>',
       to: clientEmail,
       subject: `Заказанные отчеты`,
       html: `
       <p>Здравствуйте, ранее вы оплатили заказ, ваш экспресс отчет и справка о кадастровой стоимости во вложении.</p>
-      <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>
+      <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>
       <p>Дополнительная информация:</p>
       <p>Наш телеграмм бот для заказа отчетов:  https://t.me/goskad_bot</p>
       <p>Предлагаем  дистанционное  выполнение  кадастровых  работ  по выгодным
@@ -677,7 +554,7 @@ export default async function result(req, res) {
 
     const messageToAdmin = {
       from: clientEmail,
-      to: 'admin@nspdm.su',
+      to: 'admin@nspd.su',
       subject: `${cadNumber} - Уведомление о новом платеже`,
       html:`
       <p>Поступил новый заказ</p>
@@ -714,7 +591,7 @@ export default async function result(req, res) {
 } catch {
   const messageToAdmin = {
     from: clientEmail,
-    to: 'admin@nspdm.su',
+    to: 'admin@nspd.su',
     subject: `${cadNumber} - Уведомление о новом заказе с ошибкой`,
     html:`
     <p>Поступил новый заказ, но при создании отчета произошла ошибка и отчеты не были отправлены</p>
@@ -735,9 +612,9 @@ res.status(200).send('ok')
 
 } else {
     const message = {
-      from: 'Кадастровый сервис nspdm.su <admin@nspdm.su>',
+      from: 'Кадастровый сервис <admin@nspd.su>',
       to: clientEmail,
-      subject: `Вы оплатили заказ №${numberOfOrder} на сайте nspdm.su`,
+      subject: `Вы оплатили заказ №${numberOfOrder}`,
       html: `
       <p>Здравствуйте. Мы получили оплату и уже работаем над вашим заказом №${numberOfOrder}.</p>
       <p><b>В работе следующие услуги:</b></p>
@@ -745,14 +622,14 @@ res.status(200).send('ok')
       ${outputObject().map((it) => `<p>${it.props.children}</p>`).join('\n')}
       </ul>
       <p>Заказ будет отправлен на указанный почтовый ящик сразу же после исполнения.</p>
-      <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис Госкадастр</p>`
+      <p>Спасибо, что выбрали нас. С уважением, кадастровый сервис.</p>`
     }
 
     await mailer(message)
 
     const adminMessage = {
       from: clientEmail,
-      to: 'admin@nspdm.su',
+      to: 'admin@nspd.su',
       subject: `${cadNumber} - Уведомление о новом платеже`,
       html:`
       <p>Поступил новый заказ</p>

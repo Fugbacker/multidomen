@@ -37,7 +37,7 @@ export default async function result(req, res) {
       url: url
     })
 
-    historyCadPrice = nspdData?.data
+    historyCadPrice = nspdData?.data?.data || nspdData?.data
 
   } catch {
     historyCadPrice = []
