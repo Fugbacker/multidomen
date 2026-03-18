@@ -398,6 +398,7 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
         ))}
       </Head>
       {cities && <Meta
+        host={host}
         title={`НСПД кадастровая карта ${genetiveRegionName}`}
         descritoin={`Публичная кадастровая карта НСПД ${genetiveRegionName} 2026.`}
         keywords={`публичная кадастровая карта ${genetiveRegionName} 2026, официальная кадастровая карта, общедоступная кадастровая карта, пкк Единого Государственного Реестра недвижимости (Росреестра), кадастровая карта ${genetiveRegionName}, Национальная система пространственных данных, новая кадастровая карта НСПД ${genetiveRegionName}`}

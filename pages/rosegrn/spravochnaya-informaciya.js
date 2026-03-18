@@ -8,11 +8,12 @@ import { Link } from 'react-scroll'
 import Meta from '@/Components/meta'
 import style from '@/styles/rosegrn.module.css'
 
-export default function Home() {
+export default function Home({ host }) {
   const [cadastrData, setCadastrData] = useState('')
   return (
     <>
       <Meta
+        host={host}
         title={`Cправочная информация из Росреестра по объектам недвижимости в режиме online | Бесплатные кадастровые сведения из Росреестра`}
         descritoin={`Бесплатная справочная информация по объектам недвижимости в режиме онлайн из Росреестра.`}
         keywords={`справочная информация по объектам недвижимости, справочная информация по объектам недвижимости в режиме online, справочная росреестра, сведения об объектах недвижимости в режиме онлайн, справочная информация информация об объектах недвижимости в режиме онлайн, справочная росреестра, справочная`}

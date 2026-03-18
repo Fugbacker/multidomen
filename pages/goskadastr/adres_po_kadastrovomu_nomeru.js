@@ -5,13 +5,14 @@ import Search from '@/Components/layout/Search'
 // import Scroll from '@/components/scroll'
 import Meta from '@/Components/meta'
 import style from '@/styles/goskadastr.module.css'
-export default function Home() {
+export default function Home({ host }) {
   const [cadastrData, setCadastrData] = useState([])
 
 
   return (
     <>
       <Meta
+        host={host}
         title={`Узнать кадастровый номер по адресу объекта недвижимости бесплатно | Определить кадастровый номер по адресу объекта недвижимости`}
         descritoin={`Бесплатно найти кадастровый номер квартиры, участка, частного дома по адресу онлайн. Узнать кадастровый номер объекта недвижимости по адресу.`}
         keywords={`кадастровый номер по адресу объекта недвижимости, узнать кадастровый номер, узнать по кадастровому номеру адрес объекта недвижимости,кадастровый номер по адресу, узнать кадастровый номер по адресу, кадастровый номер по адресу объекта недвижимости бесплатно`}

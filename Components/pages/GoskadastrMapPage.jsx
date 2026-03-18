@@ -405,6 +405,7 @@ export default function GoskadastrKadastrMap ({ cities, districts, regionName, r
         ))}
       </Head>
       {cities && <Meta
+        host={host}
         title={`Публичная кадастровая карта ${genetiveRegionName} 2026`}
         descritoin={`Кадастровая карта ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.`}
         keywords={`пкк Единого Государственного Реестра недвижимости (Росреестра), публичная кадастровая карта 2026 ${genetiveRegionName}, официальная кадастровая карта, общедоступная кадастровая карта, кадастровая карта ${genetiveRegionName}, Национальная система пространственных данных, НСПД, новая публичная кадастровая карта ${genetiveRegionName}`}

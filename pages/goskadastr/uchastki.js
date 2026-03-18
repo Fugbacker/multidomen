@@ -16,7 +16,7 @@ import PpkMapUchastok from '@/Components/ppkMapUchastok'
 import style from '@/styles/goskadastr.module.css'
 import styles from'@/styles/PublicCadastralMap.module.css'
 
-export default function Home({ country, lat, lon, referer }) {
+export default function Home({ country, lat, lon, referer, host }) {
   const [cadastrData, setCadastrData] = useState([])
   const [cadastrNumber, setCadastrNumber] = useState('')
   const [onCkickCadastrNumber, setOnCkickCadastrNumber] = useState('')
@@ -185,6 +185,7 @@ export default function Home({ country, lat, lon, referer }) {
         ))}
       </Head>
       <Meta
+        host={host}
         title={`Кадастровые схемы расположения земельных участков | Подготовка схемы земельных участков на кадастровом плане территории`}
         descritoin={`Подготовка кадастровых планировочных схем для образования и перераспределения земельных участков. Заказать схему для предварительного согласования земельного участка`}
         keywords={`кадастровый учет земельных участков, кадастровая схема земельных участков, кадастровые схемы расположения земельных участков, кадастровые планировочные схемы земельных участков, предварительное согласование земельных участок, схема для предварительного согласования земельного участка`}

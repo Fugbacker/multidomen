@@ -1,18 +1,18 @@
 import React from 'react'
 import Head from 'next/head'
 
-const Meta = ({ title, descritoin, keywords, canonicalURL, robots, ogUrl, ogTitle, ogDescrition, twitterDescription, twitterTitle}) => {
+const Meta = ({ title, descritoin, keywords, canonicalURL, robots, ogUrl, ogTitle, ogDescrition, twitterDescription, twitterTitle, host}) => {
   return (
     <>
       <Head>
         <title>{title}</title>
-        <meta property="og:site_name" content='nspdm.su' />
+        <meta property="og:site_name" content={host} />
         <meta name="description" content={descritoin} />
         <meta name="keywords" content={keywords} />
         <meta name="robots" content={robots} />
         <meta property="og:type" content="website"/>
         <meta property="og:url" content={ogUrl}/>
-        <meta property="og:image" content="https://nspdm.su/images/opg1.jpg" />
+        {/* <meta property="og:image" content={`https://${host}/images/opg1.jpg`} /> */}
         <meta property="og:image:width" content="600" />
         <meta property="og:image:height" content="315" />
         <meta property="og:title" content={ogTitle}/>

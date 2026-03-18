@@ -1,5 +1,5 @@
 export function getSiteProps(context) {
-  const protocol = context.req.headers['x-forwarded-proto'] || 'http'
+  const protocol = context.req.headers['x-forwarded-proto'] || 'https'
   const rootHost = context.req.headers.host
   const site = context.req.headers['x-site'] || 'nspdm'
   console.log('protocol', protocol)

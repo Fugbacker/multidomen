@@ -9,7 +9,7 @@ import MacroUchastok from '@/Components/macroUchastok'
 import PpkMapUchastok from '@/Components/ppkMapUchastok'
 import style from '@/styles/rosegrn.module.css'
 
-export default function Home({ country, lat, lon, referer }) {
+export default function Home({ country, lat, lon, referer, host }) {
   const [cadastrData, setCadastrData] = useState([])
   const [cadastrNumber, setCadastrNumber] = useState('')
   const [onCkickCadastrNumber, setOnCkickCadastrNumber] = useState('')
@@ -64,6 +64,7 @@ export default function Home({ country, lat, lon, referer }) {
   return (
     <>
       <Meta
+        host={host}
         title={`Земельные участки России - государственный кадастровый учет земельных участков | Кадастровый адрес, границы, план, схемы, кадастровые номера земельных участков России.`}
         descritoin={`Поиск частных и государственных земельных участков для аренды и покупки. Кадастровый план и схемы земельных участков, кадастровые границы, кадастровый адрес и государственный кадастровый учет земельных участков.`}
         keywords={`кадастровый учет земельных участков, кадастровая схема земельных участков, кадастровые границы земельных участков, кадастровый план земельных участков, кадастровый адрес земельных участков, земельные участки, аренда государственных земельных участков, купить государственный земельный участок`}

@@ -8,7 +8,7 @@ import Scroll from '@/Components/scroll'
 import Meta from '@/Components/meta'
 import style from '@/styles/goskadastr.module.css'
 
-export default function Home() {
+export default function Home({ host }) {
   const [model, setModel] = useState(false)
   const [tempImg, setTempImg] = useState('')
   const [isNotificationVisible, setIsNotificationVisible] = useState(false);
@@ -66,6 +66,7 @@ export default function Home() {
   return (
     <>
       <Meta
+        host={host}
         title={`Бесплатная справочная информация по объектам недвижимости в режиме online|Бесплатные кадастровые сведения из Росреестра об объектах недвижимости онлайн.`}
         descritoin={`Бесплатные справочная кадастровая информация из росреестра об объектах недвижимости в режиме онлайн.`}
         keywords={`справочная информация по объектам недвижимости в режиме online, справочная информация по объектам недвижимости, справочная росреестра, сведения об объектах недвижимости в режиме онлайн, справочная информация информация об объектах недвижимости в режиме онлайн`}
