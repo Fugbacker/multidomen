@@ -17,8 +17,8 @@ export default async function tooltips(req, res) {
         'Idempotence-key': Date.now()
       },
       auth: {
-        username: '1124414',
-        password: 'live_jAqM81GhRuAu9mvu3zLaef26dHEy1y5qSmvNBNHUl3Y'
+        username: '1095353',
+        password: 'live_weYRy_mtL_CM-0HmivY-2l6A7RIKh-kZGjXBZ5w1sSE'
       },
       data: {
         amount: {

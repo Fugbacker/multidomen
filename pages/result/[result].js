@@ -68,8 +68,8 @@ export async function getServerSideProps(context) {
       'Content-type': 'application/json',
     },
     auth: {
-      username: '1124414', //'501627',
-      password: 'live_jAqM81GhRuAu9mvu3zLaef26dHEy1y5qSmvNBNHUl3Y' //'test_REd92lfdF3-xDVl_6B1C42sxUew5KiFiiQs7f0-qMz8'
+      username: '1095353', //'501627',
+      password: 'live_weYRy_mtL_CM-0HmivY-2l6A7RIKh-kZGjXBZ5w1sSE'
     },
   })
   const status = data?.status
