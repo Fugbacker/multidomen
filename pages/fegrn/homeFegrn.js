@@ -1,7 +1,7 @@
 import HomeFegrn from '@/Components/pages/homeFegrn'
 import { getSiteProps } from '@/services/ssr/getSiteProps'
 
-export default HomeGoskadastr
+export default HomeFegrn
 
 export async function getServerSideProps(context) {
   return {

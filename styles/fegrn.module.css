@@ -2646,8 +2646,8 @@ a.fancybox:hover span {
 	background-color: unset;
 }
 
-/* .h-mylo::after{content: attr(data-item1); color: #5C6778;; font-size: 13px;}
-.h-mylo::before{content: attr(data-item2) "\0040"; color: #5C6778;; font-size: 13px;} */
+.h-mylo::after{content: attr(data-item1); color: #fff;; font-size: 13px;}
+.h-mylo::before{content: attr(data-item2) "\0040"; color: #fff;; font-size: 13px;}
 .h-text::after{content: attr(data-item1);}
 .h-text::before{content: attr(data-item2) " "; }
 
