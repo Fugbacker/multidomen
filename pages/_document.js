@@ -18,10 +18,15 @@ export default class MyDocument extends Document {
   render() {
     const { site } = this.props
 
-    const counterId =
-      site === 'nspdmap'
-        ? 107959089
-        : 107545302
+    let counterId = 107959089
+
+    if (site === 'nspdm') {
+      counterId = 107545302
+    }
+
+    if (site === 'nspdmaps') {
+      counterId = 107959089
+    }
 
     return (
       <Html lang="ru">
