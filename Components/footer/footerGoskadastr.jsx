@@ -16,7 +16,7 @@ export default function FooterGoskadastr ({ host, url }) {
               </div>
             </div>
             <div>
-              <p className={style.copy}>2015-2023 © Все права защищены. <a href={`https://${host}`}>{host}</a><br/><br/>
+              <p className={style.copy}>2017-2026 © Все права защищены. <a href={`https://${host}`}>{host}</a><br/><br/>
               Сайт не является официальным сайтом, официальный сайт Росреестра - rosreestr.gov.ru
               </p>
               <div className={style.payLogo}></div>

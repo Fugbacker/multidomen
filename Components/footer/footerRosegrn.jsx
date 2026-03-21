@@ -40,7 +40,7 @@ export default function FooterRosegrn ({ host }) {
           </div>
           <div>
             <p>Данный сайт не является официальным сайтом Росреестра. Официальный сайт Росреестра - rosreestr.gov.ru</p>
-            <p className="copy">2015-2026 © Все права защищены. <a href="/">{host}</a></p>
+            <p className="copy">2019-2026 © Все права защищены. <a href="/">{host}</a></p>
             <div className="payLogo"></div>
           </div>
         </div>
