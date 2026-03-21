@@ -419,6 +419,7 @@ export default function GoskadastrKadastrMap ({ cities, districts, regionName, r
       />}
       {region &&
         <Meta
+          host={host}
           title={`Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026`}
           descritoin={`Кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026 с кадастровыми сведениями по объектам недвижимости из НСПД`}
           keywords={`пкк Единого Государственного Реестра недвижимости (Росреестра), публичная кадастровая карта 2026 ${cityFrom(regionName)} района ${genetiveRegionName}, официальная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}, общедоступная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}, кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}, Национальная система пространственных данных, НСПД, новая публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}`}
@@ -434,6 +435,7 @@ export default function GoskadastrKadastrMap ({ cities, districts, regionName, r
 
       {city &&
         <Meta
+          host={host}
           title={`Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026`}
           descritoin={`Кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026 с кадастровыми сведениями по объектам недвижимости из НСПД`}
           keywords={`пкк Единого Государственного Реестра недвижимости (Росреестра), публичная кадастровая карта 2026 ${cityFrom(regionName)} ${genetiveRegionName}, официальная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}, общедоступная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}, кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}, Национальная система пространственных данных, НСПД, новая публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}`}
@@ -449,6 +451,7 @@ export default function GoskadastrKadastrMap ({ cities, districts, regionName, r
 
       {settlement &&
         <Meta
+        host={host}
         title={`Публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026`}
         descritoin={`Кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026 с кадастровыми сведениями по объектам недвижимости из НСПД`}
         keywords={`пкк Единого Государственного Реестра недвижимости (Росреестра), публичная кадастровая карта 2026 ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}, официальная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}, общедоступная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}, кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}, Национальная система пространственных данных, НСПД, новая публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`}
@@ -461,7 +464,7 @@ export default function GoskadastrKadastrMap ({ cities, districts, regionName, r
         twitterDescription={`Кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026 с кадастровыми сведениями по объектам недвижимости из НСПД`}
       />
       }
-      <Header />
+      <Header host={host} />
        <div className={`${style.section} ${style.content1} ${style.blue}`}>
           <div className={style.content1}>
             {cities ? <h1>Публичная кадастровая карта {genetiveRegionName}</h1>:

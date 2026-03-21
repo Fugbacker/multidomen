@@ -8,5 +8,6 @@ import SearchFcad from '@/Components/search/searchFcad'
 export default function Search(props) {
   const { site } = useSite()
   if (site === 'nspdmap') return <SearchGoskadastr {...props} />
+  if (site === 'nspdmaps') return <SearchFcad {...props} />
   return <SearchRosegrn {...props} />
 }

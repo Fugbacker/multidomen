@@ -29,7 +29,7 @@ const renameUrl = function(url) {
 
 
 
-export default function RosegrnKadastrMap ({ cities, districts, regionName, regionCode, regionStat, center, regionNumber, list, districtData, city, settlement, region, macroRegionNameGenetive, settlementName, field, url, host, totalPopulation, totalChildren, childrenPercentage, typeStats, typePercentages, settlementCounts }) {
+export default function FegrnKadastrMap ({ cities, districts, regionName, regionCode, regionStat, center, regionNumber, list, districtData, city, settlement, region, macroRegionNameGenetive, settlementName, field, url, host, totalPopulation, totalChildren, childrenPercentage, typeStats, typePercentages, settlementCounts }) {
   const citiesList = cities && JSON.parse(cities)
   const districtsList = districts && JSON.parse(districts)
   const stats = regionStat && JSON.parse(regionStat)
@@ -42,6 +42,7 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
   const settlementCount = settlementCounts && JSON.parse(settlementCounts)
   const lat = center && JSON.parse(center)[0]
   const lon = center && JSON.parse(center)[1]
+  const [flats, setFlats] = useState([])
   const [cadastrData, setCadastrData] = useState([])
   const [cadastrNumber, setCadastrNumber] = useState('')
   const [isVisible, setIsVisible] = useState(true);
@@ -63,7 +64,8 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
   const [polygonCoordinates, setPolygonCoordinates] = useState(null);
   const [isEditingPolygon, setIsEditingPolygon] = useState(false);
 
-
+  const regionFlats = flats.find((it  => it.rusName === regionName))?.flatsCount
+  const regionHouse = flats.find((it  => it.rusName === regionName))?.houseCount
   const rights = flatRights?.realty?.rights
   const rightsCheck = rights?.filter((it) =>  it?.rightState === 1)
 
@@ -98,6 +100,7 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
   // const aroundObjects = field && JSON.parse(field)
 
   const genetiveRegionName = macroRegions?.find((it => it.name === regionName))?.genitive || macroRegions?.find((it => it.key === parseInt(regionNumber)))?.genitive
+  const area = macroRegions?.find((it => it.key === parseInt(regionNumber)))?.area
 
   const baseRegionId = macroRegions.find(it => it.key === Number(regionNumber))?.id
 
@@ -112,6 +115,11 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
   useEffect(() => {
     SetSendActivePromoCode(promoCode)
   }, [activate])
+
+  useEffect(() => {
+    axios('/api/flatsCount')
+    .then(({ data }) => setFlats(data))
+  }, [])
 
   const showNotification = () => {
     setIsNotificationVisible(true);
@@ -291,99 +299,82 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
 
   const rootDomain = host && host.split('.').slice(-2).join('.')
   const baseUrl = `https://${rootDomain}` // поставь свой URL если нужно
-  const mainArticleId = `${baseUrl}#main-article`
 
-  const mainArticle = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "@id": mainArticleId,
-    "headline":
-     cities ? `Кадастровая карта  НСПД ${genetiveRegionName}` :
-     region ? `Кадастровая карта  НСПД ${cityFrom(regionName)} района ${genetiveRegionName}` :
-     city ? `Кадастровая карта  НСПД ${cityFrom(regionName)} ${genetiveRegionName}` :
-     `Кадастровая карта  НСПД ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`,
-    "description":
-     cities ? `Публичная кадастровая карта ${genetiveRegionName}из НСПД` :
-     region ? `Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} из НСПД.` :
-     city ? `Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} из НСПД.` :
-      `Публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} из НСПД.`,
-    "author": {
-      "@type": "Organization",
-      "name": `${rootDomain}`,
+  const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${baseUrl}/${path}#app`,
+      "name":
+        cities ? `Публичная кадастровая карта ${genetiveRegionName} 2026` :
+        region ? `Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026` :
+        city ? `Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026` :
+        `Публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026`,
       "url": `${baseUrl}/${path}`,
+      "description":
+        cities ? `Кадастровая карта  ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.` :
+        region ? `Кадастрвоая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.` :
+        city ? `Кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.` :
+          `Кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.`,
+      "applicationCategory": "MapApplication",
+      "operatingSystem": "All",
+      "inLanguage": "ru",
+      "browserRequirements": "Requires JavaScript",
+      "author": {
+        "@id": `${baseUrl}#org`
+      }
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": `${rootDomain}`,
-      "url": `${baseUrl}/${path}`,
-    },
-    "mainEntityOfPage": {
+
+    {
       "@type": "WebPage",
-      "@id": `${baseUrl}/${path}`
+      "@id": `${baseUrl}/${path}#page`,
+      "url": `${baseUrl}/${path}`,
+      "name":
+        cities ? `Публичная кадастровая карта ${genetiveRegionName} 2026` :
+        region ? `Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026` :
+        city ? `Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026` :
+        `Публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026`,
+      "description":
+        cities ? `Кадастровая карта  ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.` :
+        region ? `Кадастрвоая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.` :
+        city ? `Кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.` :
+          `Кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} 2026 года с кадастровыми сведениями по объектам недвижимости из НСПД.`,
+      "isPartOf": {
+        "@id": `${baseUrl}#website`
+      },
+      "about": {
+        "@id": `${baseUrl}/${path}#app`
+      },
+      "inLanguage": "ru",
+      "dateModified": new Date().toISOString()
     },
-    "articleSection": [
-      cities ? `Кадастровая карта НСПД ${genetiveRegionName}` :
-      region ? `Кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName}` :
-      city ? `Кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName}` : `Кадастровая карта НСПД ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`,
-      cities ? `Данные кадастровой карты НСПД ${genetiveRegionName}` :
-      region ? `Данные кадастровой карты НСПД ${cityFrom(regionName)} района ${genetiveRegionName}` :
-      city ? `Данные кадастровой карты НСПД ${cityFrom(regionName)} ${genetiveRegionName}` : `Данные кадастровой карты НСПД ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`,
-    ],
-    "url": `${baseUrl}/${path}`
-  }
 
-  // секции — каждая как Article (isPartOf -> основной)
-  const sections = [
     {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "@id": `${mainArticleId}#section-1`,
-      "headline":
-        cities ? `Публичная кадастровая карта ${genetiveRegionName} с данными из НСПД` :
-        region ? `Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} с данными из НСПД` :
-        city ? `Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} с данными из НСПД` : `Публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName} с данными из НСПД`,
-      "description":
-        cities ? `Сведения, доступные по кадастровым объектам на кадастровой карте ${genetiveRegionName}` :
-        region ? `Поиск земельных участков, зданий и сооружений на кадастровой карте ${cityFrom(regionName)} района ${genetiveRegionName}` :
-        city ? `Поиск земельных участков, зданий и сооружений на кадастровой карте ${cityFrom(regionName)} ${genetiveRegionName}` : `Поиск земельных участков, зданий и сооружений на кадастровой карте ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`,
-      "isPartOf": { "@type": "Article", "@id": mainArticleId },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": `${baseUrl}/${path}`},
-      "url": `${baseUrl}/${path}#section-1`
+      "@type": "Organization",
+      "@id": `${baseUrl}#org`,
+      "name": rootDomain,
+      "url": baseUrl,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/logo.png`
+      }
     },
+
     {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "@id": `${mainArticleId}#section-2`,
-      "headline":
-        cities ? `Статистические данные по кадастровым объектам и населению ${genetiveRegionName}` :
-        region ? `Статистические данные по кадастровым объектам и населению ${cityFrom(regionName)} района ${genetiveRegionName}` :
-        city ? `Статистические данные по кадастровым объектам и населению ${cityFrom(regionName)} ${genetiveRegionName}` :  `Статистические данные по кадастровым объектам и населению ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`
-      ,
-      "description":
-        cities ? `Статистика существующих населенных пунктов на кадастровой карте ${genetiveRegionName}` :
-        region ? `Статистика существующих населенных пунктов на кадастровой карте ${cityFrom(regionName)} района ${genetiveRegionName}` :
-        city ? `Статистика существующих населенных пунктов на кадастровой карте ${cityFrom(regionName)} ${genetiveRegionName}` :  `Статистика существующих населенных пунктов на кадастровой карте ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`,
-      "isPartOf": { "@type": "Article", "@id": mainArticleId },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": `${baseUrl}/${path}` },
-      "url": `${baseUrl}/${path}}#section-2`
-    },
-     {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "@id": `${mainArticleId}#section-3`,
-      "headline":
-        cities ? `Название населенных пунктов ${genetiveRegionName}` :
-        region ? `Название населенных пунктов ${cityFrom(regionName)} района ${genetiveRegionName}` :
-        city ? `Название населенных пунктов ${cityFrom(regionName)} ${genetiveRegionName}` :  `Публичная кадастровая карта ${cityFrom(settlementName)} ${cityFrom(regionName)} района ${genetiveRegionName}`,
-      "description": "Раздел с выбором регионов и ссылками на кадастровые карты по субъектам РФ.",
-      "isPartOf": { "@type": "Article", "@id": mainArticleId },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": `${baseUrl}/${path}` },
-      "url": `${baseUrl}/${path}#section-3`
+      "@type": "WebSite",
+      "@id": `${baseUrl}#website`,
+      "url": baseUrl,
+      "name": "Кадастровая карта НСПД",
+      "publisher": {
+        "@id": `${baseUrl}#org`
+      }
     }
   ]
+}
 
+const jsonLdObjects = [jsonLd]
 
-  const jsonLdObjects = [mainArticle, ...sections]
 
   return (
     <>
@@ -399,93 +390,83 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
       </Head>
       {cities && <Meta
         host={host}
-        title={`НСПД кадастровая карта ${genetiveRegionName}`}
-        descritoin={`Публичная кадастровая карта НСПД ${genetiveRegionName} 2026.`}
+        title={`Кадастровая карта НСПД ${genetiveRegionName} 2026`}
+        descritoin={`Публичная кадастровая карта ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год`}
         keywords={`публичная кадастровая карта ${genetiveRegionName} 2026, официальная кадастровая карта, общедоступная кадастровая карта, пкк Единого Государственного Реестра недвижимости (Росреестра), кадастровая карта ${genetiveRegionName}, Национальная система пространственных данных, новая кадастровая карта НСПД ${genetiveRegionName}`}
         canonicalURL={`https://${rootDomain}/${path}`}
         robots='index, follow'
         ogUrl={`https://${rootDomain}/${path}`}
-        ogTitle={`НСПД кадастровая карта ${genetiveRegionName}`}
-        ogDescrition={`Публичная кадастровая карта НСПД ${genetiveRegionName} 2026.`}
-        twitterTitle={`НСПД кадастровая карта ${genetiveRegionName}`}
-        twitterDescription={`Публичная кадастровая карта НСПД ${genetiveRegionName} 2026.`}
+        ogTitle={`Кадастровая карта НСПД ${genetiveRegionName} 2026`}
+        ogDescrition={`Публичная кадастровая карта ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
+        twitterTitle={`Кадастровая карта НСПД ${genetiveRegionName} 2026`}
+        twitterDescription={`Кадастровая карта НСПД ${genetiveRegionName} 2026`}
       />}
       {region &&
         <Meta
           host={host}
-          title={`НСПД кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}`}
-          descritoin={`Публичная кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName} 2026.`}
+          title={`Кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName} 2026`}
+          descritoin={`Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
           keywords={`НСПД, публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} 2026, официальная кадастровая карта, общедоступная кадастровая карта, кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}, Национальная система пространственных данных, новая кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName}`}
           canonicalURL={`https://${rootDomain}/${path}`}
           robots='index, follow'
           ogUrl={`https://${rootDomain}/${path}`}
-          ogTitle={`НСПД кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}`}
-          ogDescrition={`Публичная кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName} 2026.`}
-          twitterTitle={`НСПД кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName}`}
-          twitterDescription={`Публичная кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName} 2026.`}
+          ogTitle={`Кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName} 2026`}
+          ogDescrition={`Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
+          twitterTitle={`Кадастровая карта НСПД ${cityFrom(regionName)} района ${genetiveRegionName} 2026`}
+          twitterDescription={`Публичная кадастровая карта ${cityFrom(regionName)} района ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
         />
       }
 
       {city &&
         <Meta
           host={host}
-          title={`НСПД кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}`}
-          descritoin={`Публичная кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName} 2026.`}
+          title={`Кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName} 2026`}
+          descritoin={`Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
           keywords={`НСПД, публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} 2026, официальная кадастровая карта, общедоступная кадастровая карта, кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}, Национальная система пространственных данных, новая кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName}`}
           canonicalURL={`https://${rootDomain}/${path}`}
           robots='index, follow'
           ogUrl={`https://${rootDomain}/${path}`}
-          ogTitle={`НСПД кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}`}
-          ogDescrition={`Публичная кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName} 2026.`}
-          twitterTitle={`НСПД кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName}`}
-          twitterDescription={`Публичная кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName} 2026.`}
+          ogTitle={`Кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName} 2026`}
+          ogDescrition={`Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
+          twitterTitle={`Кадастровая карта НСПД ${cityFrom(regionName)} ${genetiveRegionName} 2026`}
+          twitterDescription={`Публичная кадастровая карта ${cityFrom(regionName)} ${genetiveRegionName} с актуальными сведениями из НСПД за 2026 год.`}
         />
       }
 
       {settlement &&
         <Meta
           host={host}
-          title={`НСПД кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}`}
-          descritoin={`Публичная кадастровая карта НСПД ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}. ${settlementName} 2026.`}
+          title={`Кадастровая карта НСПД ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}`}
+          descritoin={`Публичная кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}. ${settlementName} с актуальными сведениями из НСПД за 2026 год.`}
           keywords={`НСПД, публичная кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName} 2026, официальная кадастровая карта, общедоступная кадастровая карта, кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}, Национальная система пространственных данных, новая кадастровая карта НСПД ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}`}
           canonicalURL={`https://${rootDomain}/${path}`}
           robots='index, follow'
           ogUrl={`https://${rootDomain}/${path}`}
-          ogTitle={`НСПД кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}`}
-          ogDescrition={`Публичная кадастровая карта НСПД ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}. ${settlementName} 2026.`}
+          ogTitle={`Кадастровая карта НСПД ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}`}
+          ogDescrition={`Публичная кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}. ${settlementName} с актуальными сведениями из НСПД за 2026 год.`}
           twitterTitle={`НСПД кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}`}
-          twitterDescription={`Публичная кадастровая карта НСПД ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}. ${settlementName} 2026.`}
+          twitterDescription={`Публичная кадастровая карта ${settlementName} ${cityFrom(regionName)} района ${genetiveRegionName}. ${settlementName} с актуальными сведениями из НСПД за 2026 год.`}
         />
           }
       <Header host={host} />
-        <div className={`${styleses.section} ${styleses.fieldform} ${styleses.start}`} id="start">
-          <div className={styleses.layout}>
-            <div className={styleses.mainFirst}>
-              <div className={styleses["main__first-wrap"]}>
-                  {cities ? <h1 className={styleses["main__first-h1"]}>Кадастровая карта {genetiveRegionName}</h1>:
-                  region ? <h1 className={styleses["main__first-h1"]}>Кадастровая карта {cityFrom(regionName)} района {genetiveRegionName}</h1>:
-                  city ? <h1 className={styleses["main__first-h1"]}>Кадастровая карта {cityFrom(regionName)} {genetiveRegionName}</h1>:
-                  <h1 className={styleses["main__first-h1"]}>Кадастровая карта {settlementName} {cityFrom(regionName)} района {genetiveRegionName}</h1>
-                  }
-                <div className={styleses["main__first-descr"]}>
-                  Кадастровые сведения по объектам недвижимости, границы участков, межевание, схемы для предварительного согласования участков в собственность или аренду, сводные земельные отчеты.
-                </div>
-              </div>
-              <div className={styleses["main__first-img"]}></div>
-            </div>
-          </div>
-        </div>
         <div className="section animate">
            <div className="layout">
+            <div className={style.content1}>
+            {cities ? <h1>ПКК {genetiveRegionName}</h1>:
+              region ? <h1>ПКК {cityFrom(regionName)} района {genetiveRegionName}</h1>:
+              city ? <h1>ПКК {cityFrom(regionName)} {genetiveRegionName}</h1>:
+              <h1>ПКК {cityFrom(settlementName)} {cityFrom(regionName)} района {genetiveRegionName}</h1>
+              }
             <div className={style.serviceItem}>
               <div className={style.serviceText}>
                 {cities ?
-                <p>Границы и схемы земельных участков, межевание, сводные земельные отчеты, кадастровая стоимость, поиск по кадастровому номеру, кадастровая информация по объектам недвижимости {genetiveRegionName}.</p>:
-                region ? <p>Границы и схемы земельных участков, межевание, сводные земельные отчеты, кадастровая стоимость, поиск по кадастровому номеру, кадастровая информация по объектам недвижимости {cityFrom(regionName)} района {genetiveRegionName}.</p>:
-                city ? <p>Границы и схемы земельных участков, межевание, сводные земельные отчеты, кадастровая стоимость, поиск по кадастровому номеру, кадастровая информация по объектам недвижимости {cityFrom(regionName)} {genetiveRegionName}.</p>:
-                <p>Границы и схемы земельных участков, межевание, сводные земельные отчеты, кадастровая стоимость, поиск по кадастровому номеру, кадастровая информация по объектам недвижимости{settlementName} {cityFrom(regionName)} района {genetiveRegionName}.</p>
+                <p>Земельные участки, здания и сооружения на публичной кадастровой карте {genetiveRegionName}. Схемы земельных участков, межевание, кадастровая информация по объектам недвижимости.</p>:
+                region ? <p>Земельные участки, здания и сооружения на публичной кадастровой карте {cityFrom(regionName)} района {genetiveRegionName}. Схемы земельных участков, межевание, кадастровая информация по объектам недвижимости.</p>:
+                city ? <p>Земельные участки, здания и сооружения на публичной кадастровой карте {cityFrom(regionName)} {genetiveRegionName}. Схемы земельных участков, межевание, кадастровая информация по объектам недвижимости.</p>:
+                <p>Земельные участки, здания и сооружения на публичной кадастровой карте {settlementName} {cityFrom(regionName)} района {genetiveRegionName}. Схемы земельных участков, межевание, кадастровая информация по объектам недвижимости.</p>
                 }
               </div>
+            </div>
             </div>
           <SearchMap setCadastrData={setCadastrData} cadastrData={cadastrData} setCadastrNumber={setCadastrNumber} closeChecker={closeChecker} alarmMessage={alarmMessage} setAlarmMessage={setAlarmMessage} setBaloonData={setBaloonData} error={error} setError={setError} />
         </div>
@@ -517,30 +498,16 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
               <div className={style["object__block-wrap"]}>
                 <article itemScope itemType="https://schema.org/Article" >
                 <div className={style.contentText}>
-                  <section itemProp="articleBody" className={styles.sec} id="section-1">
-                    <h2>Кадастровая карта {genetiveRegionName}</h2>
-                    <p>Кадастровая карта {genetiveRegionName} позволяет получить в режиме онлайн открытую <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> и заказать необходимые документы по конкретному объекту недвижимости, которые содержат:</p>
-                    <ul id="cadData">
-                      <li>Информацию о <Link href='/kadastrovaya-stoimost' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>кадастровой стоимости</Link> на дату запроса</li>
-                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер объекта недвижимости</Link>.</li>
-                      <li>фактический адрес</li>
-                      <li>Технический план участка, квартиры или здания</li>
-                      <li>Раздел сведений о наличии или отсуствии ограничений и обременений</li>
-                      <li>Площадь участка или ОКС</li>
-                      <li>Сведения о текущих правообладателях и бывших собственниках</li>
-                    </ul>
-                  </section>
-                  <section itemProp="articleBody" className={styles.sec} id="section-2">
-                  <h2>Данные публичной кадастровой карты {genetiveRegionName}</h2>
-                  <p>Публичная кадастровая карта {genetiveRegionName} имеет упорядоченную иерархическую структуру, которая содержит</p>
+                  <section className={styles.sec}>
+                  <h2>Публичная кадастровая карта {genetiveRegionName}</h2>
+                  <p>{regionName} занимает территорию <b>{area}</b> кв.км, которая поделена на:</p>
                   <ul>
                     <li>{stats?.rayon?.total} кадастровых районов</li>
-                    <li>{stats?.kvartal?.total} кварталов</li>
-                    <li>{stats?.oks?.total} капитальных строений</li>
+                    <li>{stats?.kvartal?.total} кадастровых кварталов</li>
                     <li>{stats?.parcel?.total} земельных участков</li>
                   </ul>
-                    <p>На {formattedDate} общая численность населения {genetiveRegionName} составляет <b>{population}</b> человек, которые проживают на территориях:</p>
-                  <ul>
+                  <p>На данной территории размещено: </p>
+                    <ul>
                       {Object.entries(typeNames1).map(([type, name]) => {
                         const count = settlementCount[type];
                         // Выводим только существующие данные
@@ -550,15 +517,28 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
 
                         return (
                           <li key={type}>
-                           {count} {name}
+                            {count} {name}
                           </li>
                         );
                       })}
                     </ul>
+                  <p>Численность населения {genetiveRegionName} составляет <b>{population}</b> человек. Для проживания построено {stats?.oks?.total} частных домов, а так же {regionHouse} многоквартирных домов, в которых имеется {regionFlats} квартир.</p>
+                </section>
+                <section className={styles.sec}>
+                  <h2>Кадастровые сведения</h2>
+                  <p>Публичная кадастровая карта {genetiveRegionName} содержит <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> по всем объектам недвижимости, внесенных в ЕГРН. По каждому найденному объекту доступны следующие сведения:</p>
+                  <ul>
+                    <li><Link href='/' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>Кадастровая стоимость</Link></li>
+                    <li>фактический адрес</li>
+                    <li>кадастровый план участка или технический план квартиры</li>
+                    <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер</Link>.</li>
+                    <li>Данные об ограничениях и обременениях</li>
+                    <li>информация о собственниках</li>
+                  </ul>
                 </section>
                 </div>
               </article>
-              <section id="section-3">
+              <section>
                 <div className={style.regionsContainer}>
                   <h2>Города {genetiveRegionName}</h2>
                   {citiesList.map((it, index) => {
@@ -595,47 +575,47 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
               <div className={style["object__block-wrap"]}>
               <article itemScope itemType="https://schema.org/Article" >
                 <div className={style.contentText}>
-                  <section itemProp="articleBody" className={styles.sec} id="section-1">
+                  <section className={styles.sec}>
                   <h2><Link href={`/map/${renameUrl(`${baseRegionId}|${regionNumber}`)}`} title={`Публичная кадастровая карта ${genetiveRegionName}`}>Кадастровая карта</Link> {cityFrom(regionName)} района {genetiveRegionName}.</h2>
-                    <p>Кадастровая карта {cityFrom(regionName)} района {genetiveRegionName} позволяет получить в режиме онлайн открытую <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> и заказать необходимые документы по конкретному объекту недвижимости, которые содержат:</p>
-                    <ul id="cadData">
-                      <li>Информацию о <Link href='/kadastrovaya-stoimost' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>кадастровой стоимости</Link> на дату запроса</li>
-                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер объекта недвижимости</Link>.</li>
-                      <li>фактический адрес</li>
-                      <li>Технический план участка, квартиры или здания</li>
-                      <li>Раздел сведений о наличии или отсуствии ограничений и обременений</li>
-                      <li>Площадь участка или ОКС</li>
-                      <li>Сведения о текущих правообладателях и бывших собственниках</li>
-                    </ul>
-                  </section>
-                  <section itemProp="articleBody" className={styles.sec} id="section-2">
-                  <h2>Данные публичной кадастровой карты {cityFrom(regionName)} района {genetiveRegionName}</h2>
-                  <p>Публичная кадастровая карта {cityFrom(regionName)} района {genetiveRegionName} имеет упорядоченную иерархическую структуру, которая содержит</p>
+                  <p>{regionName} район расположен на территории {genetiveRegionName} и поделен на:</p>
                   <ul>
-                    <li>{districtStats?.kvartal?.total} кварталов</li>
-                    <li>{districtStats?.oks?.total} капитальных строений</li>
+                    <li>{districtStats?.rayon?.total} кадастровых районов</li>
+                    <li>{districtStats?.kvartal?.total} кадастровых кварталов</li>
                     <li>{districtStats?.parcel?.total} земельных участков</li>
                   </ul>
-                    <p>На {formattedDate} общая численность населения {cityFrom(regionName)} района{genetiveRegionName} составляет <b>{population}</b> человек, которые проживают на территориях:</p>
-                  <ul>
-                    {Object.entries(typeNames1).map(([type, name]) => {
-                      const count = settlementCount[type];
-                      // Выводим только существующие данные
-                      if (!count) {
-                        return null;
-                      }
+                  <p>На данной территории размещено: </p>
+                    <ul>
+                      {Object.entries(typeNames1).map(([type, name]) => {
+                        const count = settlementCount[type];
+                        // Выводим только существующие данные
+                        if (!count) {
+                          return null;
+                        }
 
-                      return (
-                        <li key={type}>
-                          {name} {count} шт.
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </section>
+                        return (
+                          <li key={type}>
+                            {count} {name}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  <p>Численность населения {cityFrom(regionName)} района {genetiveRegionName} составляет <b>{population}</b> человек. На территории района поставнлено на учет {stats?.oks?.total} капитальных строений, на каждое из которых можно запросить кадастровые сведения.</p>
+                  </section>
+                  <section className={styles.sec}>
+                    <h2>Кадастровые сведения</h2>
+                    <p>Публичная кадастровая карта {cityFrom(regionName)} района {genetiveRegionName} содержит <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> по всем объектам недвижимости, внесенных в ЕГРН. По каждому найденному объекту доступны следующие сведения:</p>
+                    <ul>
+                      <li><Link href='/' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>Кадастровая стоимость</Link></li>
+                      <li>фактический адрес</li>
+                      <li>кадастровый план участка или технический план квартиры</li>
+                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер</Link>.</li>
+                      <li>Данные об ограничениях и обременениях</li>
+                      <li>информация о собственниках</li>
+                    </ul>
+                  </section>
                 </div>
               </article>
-               <section id="section-5">
+               <section>
                 <div className={style.regionsContainer}>
                   {villages.length !==0 && <h2>Деревни и села</h2>}
                   {villages.map((it, index) => {
@@ -687,44 +667,44 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
               <div className={style["object__block-wrap"]}>
               <article itemScope itemType="https://schema.org/Article" >
                 <div className={style.contentText}>
-                  <section itemProp="articleBody" className={styles.sec} id="section-1">
+                  <section className={styles.sec}>
                     <h2><Link href={`/map/${renameUrl(`${baseRegionId}|${regionNumber}`)}`} title={`Публичная кадастровая карта ${genetiveRegionName}`}>Кадастровая карта</Link> {cityFrom(regionName)} {genetiveRegionName}.</h2>
-                    <p>Кадастровая карта {cityFrom(regionName)} {genetiveRegionName} позволяет получить в режиме онлайн открытую <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> и заказать необходимые документы по конкретному объекту недвижимости, которые содержат:</p>
-                    <ul id="cadData">
-                      <li>Информацию о <Link href='/kadastrovaya-stoimost' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>кадастровой стоимости</Link> на дату запроса</li>
-                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер объекта недвижимости</Link>.</li>
+                     <p>{regionName} расположен на территории {genetiveRegionName} и поделен на:</p>
+                      <ul>
+                        <li>{districtStats?.rayon?.total} кадастровых районов</li>
+                        <li>{districtStats?.kvartal?.total} кадастровых кварталов</li>
+                        <li>{districtStats?.parcel?.total} земельных участков</li>
+                      </ul>
+                    <p>На данной территории размещено: </p>
+                      <ul>
+                        {Object.entries(typeNames1).map(([type, name]) => {
+                          const count = settlementCount[type];
+                          // Выводим только существующие данные
+                          if (!count) {
+                            return null;
+                          }
+
+                          return (
+                            <li key={type}>
+                              {count} {name}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                     <p>Численность населения {cityFrom(regionName)} района {genetiveRegionName} составляет <b>{population}</b> человек. На территории района поставнлено на учет {stats?.oks?.total} капитальных строений, на каждое из которых можно запросить кадастровые сведения.</p>
+                  </section>
+                  <section className={styles.sec}>
+                    <h2>Кадастровые сведения</h2>
+                    <p>Публичная кадастровая карта {cityFrom(regionName)} {genetiveRegionName} содержит <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> по всем объектам недвижимости, внесенных в ЕГРН. По каждому найденному объекту доступны следующие сведения:</p>
+                    <ul>
+                      <li><Link href='/' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>Кадастровая стоимость</Link></li>
                       <li>фактический адрес</li>
-                      <li>Технический план участка, квартиры или здания</li>
-                      <li>Раздел сведений о наличии или отсуствии ограничений и обременений</li>
-                      <li>Площадь участка или ОКС</li>
-                      <li>Сведения о текущих правообладателях и бывших собственниках</li>
+                      <li>кадастровый план участка или технический план квартиры</li>
+                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер</Link>.</li>
+                      <li>Данные об ограничениях и обременениях</li>
+                      <li>информация о собственниках</li>
                     </ul>
                   </section>
-                  <section itemProp="articleBody" className={styles.sec} id="section-2">
-                  <h2>Данные публичной кадастровой карты {cityFrom(regionName)} {genetiveRegionName}</h2>
-                  <p>Публичная кадастровая карта {cityFrom(regionName)} {genetiveRegionName} имеет упорядоченную иерархическую структуру, которая содержит</p>
-                  <ul>
-                    <li>{districtStats?.kvartal?.total} кварталов</li>
-                    <li>{districtStats?.oks?.total} капитальных строений</li>
-                    <li>{districtStats?.parcel?.total} земельных участков</li>
-                  </ul>
-                    <p>На {formattedDate} общая численность населения {cityFrom(regionName)} {genetiveRegionName} составляет <b>{population}</b> человек, которые проживают на территориях:</p>
-                  <ul>
-                    {Object.entries(typeNames1).map(([type, name]) => {
-                      const count = settlementCount[type];
-                      // Выводим только существующие данные
-                      if (!count) {
-                        return null;
-                      }
-
-                      return (
-                        <li key={type}>
-                          {name} {count} шт.
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </section>
                 </div>
               </article>
                <section id="section-3">
@@ -779,23 +759,19 @@ export default function RosegrnKadastrMap ({ cities, districts, regionName, regi
               <div className={style["object__block-wrap"]}>
               <article itemScope itemType="https://schema.org/Article" >
                 <div className={style.contentText}>
-                  <section itemProp="articleBody" className={styles.sec} id="section-1">
+                  <section className={styles.sec}>
                     <h2><Link href={`/map/${renameUrl(`${baseRegionId}|${regionNumber}`)}`} title={`Публичная кадастровая карта ${genetiveRegionName}`}>Кадастровая карта</Link> {cityFrom(settlementName)} {cityFrom(regionName)} района {genetiveRegionName}.</h2>
-                    <p>Кадастровая карта {cityFrom(settlementName)} {cityFrom(regionName)} района {genetiveRegionName} позволяет получить в режиме онлайн открытую <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> и заказать необходимые документы по конкретному объекту недвижимости, которые содержат:</p>
+                    {population && <p>На {formattedDate} население {cityFrom(settlementName)} составляет <b>{population}</b> человек.</p>}
+                    <p>Публичная кадастровая карта {cityFrom(settlementName)} {cityFrom(regionName)} района {genetiveRegionName} содержит <Link href='/' title ='Справочная информация по объектам недвижимости в режиме online'>справочную информацию</Link> по всем объектам недвижимости, внесенных в ЕГРН. По каждому найденному объекту доступны следующие сведения:</p>
                     <ul>
-                      <li>Информацию о <Link href='/kadastrovaya-stoimost' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>кадастровой стоимости</Link> на дату запроса</li>
-                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер объекта недвижимости</Link>.</li>
+                      <li><Link href='/' title='кадастровая стоимость по кадастровому номеру на 2026 год бесплатно'>Кадастровая стоимость</Link></li>
                       <li>фактический адрес</li>
-                      <li>Технический план участка, квартиры или здания</li>
-                      <li>Раздел сведений о наличии или отсуствии ограничений и обременений</li>
-                      <li>Площадь участка или ОКС</li>
-                      <li>Сведения о текущих правообладателях и бывших собственниках</li>
+                      <li>кадастровый план участка или технический план квартиры</li>
+                      <li><Link href='/' title='узнать кадастровый номер по адресу'>кадастровый номер</Link>.</li>
+                      <li>Данные об ограничениях и обременениях</li>
+                      <li>информация о собственниках</li>
                     </ul>
                   </section>
-                  <section itemProp="articleBody" className={styles.sec} id="section-2">
-                  <h2>Данные публичной кадастровой карты {cityFrom(settlementName)} {cityFrom(regionName)} района {genetiveRegionName}</h2>
-                  <p>На {formattedDate} общая численность населения {cityFrom(regionName)} {genetiveRegionName} составляет <b>{population}</b> человек.</p>
-                </section>
                 </div>
               </article>
               </div>

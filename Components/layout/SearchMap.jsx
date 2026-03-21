@@ -8,5 +8,6 @@ import SearchMapFcad from '@/Components/searchMap/searchMapFcad'
 export default function SearchMap(props) {
   const { site } = useSite()
   if (site === 'nspdmap') return <SearchMapRosegrn {...props} />
+  if (site === 'nspdmaps') return <SearchMapGoskadastr {...props} />
   return <SearchMapFegrn {...props} />
 }

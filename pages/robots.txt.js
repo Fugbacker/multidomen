@@ -10,6 +10,13 @@ export async function getServerSideProps({ req, res }) {
     Allow: /
     Host: https://nspdmap.su
     `
+  }
+  if (host.includes('nspdmaps')) {
+    content = `
+    User-agent: *
+    Allow: /
+    Host: https://nspdmaps.su
+    `
   } else {
     content = `
     User-agent: *

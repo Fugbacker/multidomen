@@ -4,14 +4,14 @@ import Navigation from '@/Components/navigation'
 import style from '@/styles/rosegrn.module.css'
 
 
-export default function HeaderRosegrn() {
+export default function HeaderRosegrn({ host }) {
   return (
     <header className={style.small}>
       <div className={style.header_logo}>
         <div className={style.logo}>
           <div className={style.logo_name}>
             <Link href="/" className={style.logo__name}>
-              nspdmap
+              {host}
             </Link>
           </div>
           <strong className={style.logo_descr}>

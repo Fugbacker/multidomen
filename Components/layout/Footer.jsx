@@ -6,5 +6,6 @@ export default function Footer(props) {
   const { site } = useSite()
 
   if (site === 'nspdmap') return <FooterGoskadastr {...props} />
+  if (site === 'nspdmaps') return <FooterGoskadastr {...props} />
   return <FooterRosegrn {...props} />
 }

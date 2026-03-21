@@ -216,7 +216,7 @@ export default function HomeGoskadastr ({ country, lat, lon, url, host }) {
         twitterTitle={`Публичная кадастровая карта 2026`}
         twitterDescription={`Кадастровые сведения из НСПД и Росреестра на публичной кадастровой карте 2026 года`}
       />
-      <Header />
+      <Header host={host} />
       <div className={`${style.section} ${style.content1} ${style.blue}`}>
           <div className={style.content1}>
             <h1>Публичная кадастровая карта России</h1>

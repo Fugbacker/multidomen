@@ -5,8 +5,9 @@ import HeaderFcad from '@/Components/headers/headerFcad'
 import HeaderFegrn from '@/Components/headers/headerFegrn'
 
 
-export default function Header() {
+export default function Header(props) {
   const { site } = useSite()
-  if (site === 'nspdmap') return <HeaderRosegrn />
-  return <HeaderGoskadastr />
+  if (site === 'nspdmap') return <HeaderRosegrn {...props}/>
+  if (site === 'nspdmaps') return <HeaderFegrn {...props}/>
+  return <HeaderGoskadastr {...props}/>
 }

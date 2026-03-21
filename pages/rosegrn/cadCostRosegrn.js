@@ -135,7 +135,7 @@ export default function CadCostRosegrn({ url, host }) {
         twitterTitle={`Кадастровая стоимость на 2026 год`}
         twitterDescription={`Бесплатно узнать кадастровую стоимость на 2026 годпо кадастровому номеру или адресу`}
       />
-      <Header />
+      <Header host={host} />
       <div className={`${styleses.section} ${styleses.fieldform} ${styleses.start}`} id="start">
         <div className={styleses.layout}>
           <div className={styleses.mainFirst}>

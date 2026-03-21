@@ -8,6 +8,10 @@ export function middleware(req) {
     site = 'nspdmap'
   }
 
+  if (host.includes('nspdmaps')) {
+    site = 'nspdmaps'
+  }
+
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set('x-site', site)
 

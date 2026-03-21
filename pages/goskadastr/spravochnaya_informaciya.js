@@ -78,7 +78,7 @@ export default function Home({ host }) {
         twitterTitle={`Бесплатная справочная информация по объектам недвижимости в режиме online|Бесплатные кадастровые сведения из Росреестра об объектах недвижимости онлайн.`}
         twitterDescription={`Бесплатные справочная кадастровая информация из росреестра об объектах недвижимости в режиме онлайн.`}
       />
-      <Header />
+      <Header host={host} />
       <div className={model ? `${style.model} ${style.open}` : `${style.model}`}>
         <img src={tempImg} alt="" aria-hidden="true" onClick={() => setModel(false)} />
         {/* <CloseIcon onClick={() => setModel(false)} /> */}

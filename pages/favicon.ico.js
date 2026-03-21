@@ -5,10 +5,16 @@ export async function getServerSideProps({ req, res }) {
 
   const host = req.headers.host || ''
 
-  const file =
-    host.includes('nspdmap')
-      ? 'nspdmap.ico'
-      : 'nspdm.ico'
+  let file = 'nspdm.ico'
+
+  if (host.includes('nspdmap')) {
+    file = 'nspdmap.ico'
+  }
+
+  if (host.includes('nspdmaps')) {
+    file = 'nspdmaps.ico'
+  }
+
 
   const filePath = path.join(process.cwd(), 'public', file)
 

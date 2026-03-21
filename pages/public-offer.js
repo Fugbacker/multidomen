@@ -13,7 +13,7 @@ export default function Main({url, host}) {
         keywords={`Публичная оферта`}
       />
       <div className="first">
-        <Header />
+        <Header host={host} />
           <div className="pledge pageArrest">
             <div className="content1">
               <div className="box">

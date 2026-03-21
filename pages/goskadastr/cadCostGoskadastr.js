@@ -38,7 +38,7 @@ export default function CadCostGoskadastr({ host }) {
         twitterTitle={`Кадастровая стоимость по кадастровому номеру на 2026 год бесплатно`}
         twitterDescription={`Узнать кадастровую стоимость по адресу или кадастровому номеру на 2026 год`}
       />
-      <Header />
+      <Header host={host} />
       <div className={model ? `${style.model} ${style.open}` : `${style.model}`}>
         <img src={tempImg} alt="" aria-hidden="true" onClick={() => setModel(false)} />
         {/* <CloseIcon onClick={() => setModel(false)} /> */}

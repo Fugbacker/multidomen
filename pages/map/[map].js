@@ -1,5 +1,6 @@
 import { useSite } from '@/Components/site/SiteProvider'
 import GoskadastrKadastrMap from '@/pages/goskadastr/map/[map]'
+import FegrnKadastrMap from '@/pages/fegrn/map/[map]'
 import RosegrnKadastrMap from '@/pages/rosegrn/map/[map]'
 import { getPkkMapProps } from '@/services/map/pkkMap'
 
@@ -9,6 +10,9 @@ export default function MapPage(props) {
 
   if (site === 'nspdmap') {
     return <GoskadastrKadastrMap {...props} />
+  }
+  if (site === 'nspdmaps') {
+    return <FegrnKadastrMap {...props} />
   }
   return <RosegrnKadastrMap {...props} />
 }

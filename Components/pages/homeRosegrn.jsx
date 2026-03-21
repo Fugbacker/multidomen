@@ -69,7 +69,7 @@ export default function HomeRosegrn({ country, lat, lon, url, host }) {
         twitterTitle={`Кадастровая карта России 2026 из НСПД`}
         twitterDescription={`Кадастровая карта РФ - публичные кадастровые сведения из НСПД о земельных участках в режиме онлайн за 2026 год.`}
       />
-      <Header />
+      <Header host={host} />
 
       <div className={`${styleses.section} ${styleses.fieldform} ${styleses.start}`} id="start">
         <div className={styleses.layout}>

@@ -12,7 +12,7 @@ export default function Main({ url, host }) {
         keywords={`Политика конфиденциальности`}
       />
       <div className="first">
-        <Header />
+        <Header host={host} />
           <div className="pledge pageArrest">
             <div className="content1">
               <div className="box">

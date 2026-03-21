@@ -25,7 +25,7 @@ export default function Home({ host }) {
         twitterTitle={`Cправочная информация из Росреестра по объектам недвижимости в режиме online | Бесплатные кадастровые сведения из Росреестра`}
         twitterDescription={`Бесплатная справочная информация по объектам недвижимости в режиме онлайн из Росреестра.`}
       />
-      <Header />
+      <Header host={host} />
       <div className="section fieldform start" id="start">
         <div className="layout">
            <div className={style.serviceItem}>
