@@ -20,45 +20,45 @@ if (cluster.isMaster) {
   })
 }
 
-// module.exports = withMinifyClassnames({
-//   // reactStrictMode: true,
-//   images: {
-//     domains: ['img.dmclk.ru'],
-//   },
-//     async headers() {
-//       return [
-//           {
-//               source: '/pkk',
-//               headers: [
-//                   {
-//                       key: 'Access-Control-Allow-Origin',
-//                       value: '*',
-//                   },
-//               ],
-//           },
-//       ];
-//   },
-// })
-
-
-
-module.exports = {
+module.exports = withMinifyClassnames({
   // reactStrictMode: true,
   images: {
     domains: ['img.dmclk.ru'],
   },
-  async headers() {
-    return [
-      {
-        source: '/pkk',
-        headers: [
+    async headers() {
+      return [
           {
-            key: 'Access-Control-Allow-Origin',
-            value: '*',
+              source: '/pkk',
+              headers: [
+                  {
+                      key: 'Access-Control-Allow-Origin',
+                      value: '*',
+                  },
+              ],
           },
-        ],
-      },
-    ];
+      ];
   },
-}
+})
+
+
+
+// module.exports = {
+//   // reactStrictMode: true,
+//   images: {
+//     domains: ['img.dmclk.ru'],
+//   },
+//   async headers() {
+//     return [
+//       {
+//         source: '/pkk',
+//         headers: [
+//           {
+//             key: 'Access-Control-Allow-Origin',
+//             value: '*',
+//           },
+//         ],
+//       },
+//     ];
+//   },
+// }
 
