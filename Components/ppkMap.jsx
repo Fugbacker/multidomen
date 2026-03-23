@@ -434,7 +434,7 @@ const PpkMap = ({ cadastrNumber, setCloseChecker, setAlarmMessage, setCadastrNum
     'Кадастровый план':  <div className={style.closedData}><p>в отчете</p></div>,
     'Ограничения': <div className={style.closedData}><p>в отчете</p></div>,
     'Обременения': <div className={style.closedData}><p>в отчете</p></div>,
-    'geoJSON': canDownload && <div className={style.button} onClick={handleDownloadGeoJSON}><p>скачать</p></div>
+    // 'geoJSON': canDownload && <div className={style.button} onClick={handleDownloadGeoJSON}><p>скачать</p></div>
   }
 
   const paramInfo1 = {
