@@ -25,7 +25,7 @@ export default class MyDocument extends Document {
     }
 
     if (site === 'nspdmaps') {
-      counterId = 107959089
+      counterId = 108176424
     }
 
     return (

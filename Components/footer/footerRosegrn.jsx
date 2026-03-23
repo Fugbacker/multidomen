@@ -35,7 +35,7 @@ export default function FooterRosegrn ({ host }) {
           <div className="footname">
             {/* <div className="h3">Онлайн-сервис {host}</div> */}
             <div>
-                <span className="">E-mail: <span className="h-mylo" data-item1="nspd.su" data-item2="order"></span></span>
+                <span className="">E-mail: <span className="h-mylo" data-item1="nspd.su" data-item2="admin"></span></span>
             </div>
           </div>
           <div>
