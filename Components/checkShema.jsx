@@ -139,7 +139,7 @@ const persent = '20%';
                 </div>
               </div>
             </div>
-            <ShortDataReport check={check} setBackToStep={setTwoStep} addedRaports={check} cadNumber={cadNum || onCkickCadastrNumber} summa={summa} arrayOfprice={sum} setChek={setChek} setSum={setSum} setPaintCheck={setPaintCheck} promoCode={promoCode} sendActivePromoCode={sendActivePromoCode} activate={activate} validForm={validForm} setTwoStep={setTwoStep} setTwoStepChecker={setTwoStepChecker} stepTwoChecker={stepTwoChecker} setPromoCode={setPromoCode} setActivate={setActivate} isVisible={isVisible} polygonCoordinates={polygonCoordinates} />
+            <ShortDataReport check={check} addedRaports={check} cadNumber={cadNum || onCkickCadastrNumber} summa={summa} arrayOfprice={sum} setChek={setChek} setSum={setSum} setPaintCheck={setPaintCheck} promoCode={promoCode} sendActivePromoCode={sendActivePromoCode} activate={activate} validForm={validForm} setPromoCode={setPromoCode} setActivate={setActivate} isVisible={isVisible} polygonCoordinates={polygonCoordinates} />
         </div>
     </div>
   )
