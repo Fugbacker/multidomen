@@ -8,9 +8,9 @@ const CheckRaports = ({ cadNum, owner, rightsCheck, promoCode, sendActivePromoCo
   const PRICE_EXPRESS = 500
   const PRICE_CAD_PRICE = 550
   const PRICE_LAND = 900
-  const PRICE_MAIN = 700
+  const PRICE_MAIN = 950
   const PRICE_MAIN_WITH_OWNER = 7500
-  const PRICE_RULE = 730
+  const PRICE_RULE = 980
   const PRICE_AVDK = 13000
 
   const [checkedState, setCheckedState] = useState({
