@@ -138,7 +138,7 @@ export const ShortDataReport = ({ addedRaports, cadNumber, summa, arrayOfprice, 
   if (polygonCoordinates) {
       const encodedPolygon = encodeURIComponent(JSON.stringify(polygonCoordinates));
       // const polygon = Buffer.from(polygonCoordinates, 'base64').toString('utf-8')
-      const link = `https://nspdm.su/view/${encodedPolygon}`;
+      const link = `https://gcad.su/view/${encodedPolygon}`;
       // const sharedLink = Buffer.from(link, 'base64').toString('utf-8')
       await orderGeneration(order, addedRaports, mail, cadNumber, summa, date, link);
       return
